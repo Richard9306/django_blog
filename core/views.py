@@ -33,14 +33,14 @@ class PostDetailView(DetailView):
     template_name = "core/post_detail.html"
     context_object_name = "post"
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
         context["comments"] = Comment.objects.filter(post=post).order_by('-created_on')
         context["form"] = CommentForm()
         return context
 
-    def post(self, requet, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         post = self.get_object()
         form = CommentForm(requet.POST)
 
