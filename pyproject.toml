@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "django-blog"
+version = "0.1.0"
+description = ""
+authors = ["Richard9306 <113300542+Richard9306@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+django = "^5.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
