@@ -42,7 +42,7 @@ class PostDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         post = self.get_object()
-        form = CommentForm(requet.POST)
+        form = CommentForm(request.POST)
 
         if form.is_valid():
             Comment.objects.create(
