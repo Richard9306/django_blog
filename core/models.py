@@ -41,7 +41,7 @@ class Post(models.Model):
                     if width > max_width or height > max_height:
                         raise ValidationError(f"Image dimensions should not exceed {max_width}x{max_height} pixels.")
             except (IOError, SyntaxError) as e:
-                raise ValidationError("Uploaded file is not a valid image.")
+                raise ValidationError("Uploaded file is not a valid image.") from e
 
 
 
