@@ -36,6 +36,7 @@ class Post(models.Model):
         if self.image:
             try:
                 with Image.open(self.image) as img:
+                    img.verify()
                     width, height = img.size
                     max_width = max_height = 500
                     if width > max_width or height > max_height:
