@@ -35,15 +35,13 @@ class Post(models.Model):
     def clean(self):
         if self.image:
             try:
-                img = Image.open(self.image)
-                img.verify()
+                with Image.open(self.image) as img:
+                    width, height = img.size
+                    max_width = max_height = 500
+                    if width > max_width or height > max_height:
+                        raise ValidationError(f"Image dimensions should not exceed {max_width}x{max_height} pixels.")
             except (IOError, SyntaxError) as e:
                 raise ValidationError("Uploaded file is not a valid image.")
-            width, height = img.size
-            max_width = 500
-            max_height = 500
-            if width > max_width or height > max_height:
-                raise ValidationError(f"Image dimensions should not exceed {max_width}x{max_height} pixels.")
 
 
 
