@@ -1,7 +1,8 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView
-
-from .forms import CommentForm
+from django.template.base import kwarg_re
+from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from .forms import CommentForm, PostForm
 from .models import Post, Comment
 
 
@@ -54,3 +55,10 @@ class PostDetailView(DetailView):
         context = self.get_context_data()
         context["form"] = form
         return self.render_to_response(context)
+
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "core/create_post.html"
+    def get_success_url(self):
+        return reverse_lazy("post_detail", kwargs={"pk": self.object.pk})
