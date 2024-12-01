@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from PIL import Image
 
 
 class Category(models.Model):
@@ -16,6 +18,24 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     categories = models.ManyToManyField("Category", related_name="posts")
+    image = models.ImageField(upload_to="core_images/", blank=True)
+
+    def clean(self):
+        if self.image:
+            img = Image.open(self.image)
+            width, height = img.size
+            max_width = 500
+            max_height = 500
+            if width > max_width or height > max_height:
+                raise ValidationError(f"Image dimensions should not exceed {max_width}x{max_height} pixels.")
+
+
+    @staticmethod
+    def custom_upload_to(instance, filename):
+        import uuid
+        ext = filename.split('.')[-1]
+        new_filename = f"{instance.pk}_{uuid.uuid4()}.{ext}"
+        return f"user_{instance.pk}/{new_filename}"
 
     def __str__(self):
         return self.title
