@@ -15,11 +15,10 @@ class Category(models.Model):
         return self.name
 
 
+
 def custom_upload_to(instance, filename):
-    import uuid
-    ext = filename.split('.')[-1]
-    new_filename = f"{instance.pk}_{uuid.uuid4()}.{ext}"
-    return f"user_{instance.pk}/{new_filename}"
+    return f"post_{instance.title}/{filename}"
+
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -45,8 +44,6 @@ class Post(models.Model):
                         raise ValidationError(f"Image dimensions should not exceed {max_width}x{max_height} pixels.")
             except (IOError, SyntaxError) as e:
                 raise ValidationError("Uploaded file is not a valid image.") from e
-
-
 
 
     def __str__(self):
