@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -129,3 +129,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+MAX_IMAGE_WIDTH = 500
+MAX_IMAGE_HEIGHT = 500
+ALLOWED_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png']
+
