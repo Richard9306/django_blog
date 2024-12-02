@@ -2,6 +2,8 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.core.exceptions import ValidationError
 from PIL import Image
+from django.conf import settings
+from uuid import uuid4
 
 
 class Category(models.Model):
@@ -14,11 +16,10 @@ class Category(models.Model):
         return self.name
 
 
+
 def custom_upload_to(instance, filename):
-    import uuid
-    ext = filename.split('.')[-1]
-    new_filename = f"{instance.pk}_{uuid.uuid4()}.{ext}"
-    return f"user_{instance.pk}/{new_filename}"
+    return f"post_{instance.title}/{uuid4()}_{filename}"
+
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -28,7 +29,7 @@ class Post(models.Model):
     categories = models.ManyToManyField("Category", related_name="posts")
     image = models.ImageField(
         upload_to=custom_upload_to,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])],
+        validators=[FileExtensionValidator(allowed_extensions=settings.ALLOWED_IMAGE_EXTENSIONS)],
         blank=True
     )
 
@@ -38,13 +39,12 @@ class Post(models.Model):
                 with Image.open(self.image) as img:
                     img.verify()
                     width, height = img.size
-                    max_width = max_height = 500
+                    max_width = settings.MAX_IMAGE_WIDTH
+                    max_height = settings.MAX_IMAGE_HEIGHT
                     if width > max_width or height > max_height:
                         raise ValidationError(f"Image dimensions should not exceed {max_width}x{max_height} pixels.")
             except (IOError, SyntaxError) as e:
                 raise ValidationError("Uploaded file is not a valid image.") from e
-
-
 
 
     def __str__(self):
