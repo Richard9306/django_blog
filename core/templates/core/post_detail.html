@@ -11,7 +11,12 @@
     <a href="{% url 'categories' category.name %}">{{ category.name }}</a>
     {% endfor %}
 </small>
-<p>{{ post.body | linebreaks }}</p>
+<p>
+    {% if post.image %}
+    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    {% endif %}
+    {{ post.body | linebreaks }}
+</p>
 
 <h3>Leave a comment:</h3>
 <form method="post">
