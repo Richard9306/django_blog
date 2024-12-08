@@ -26,7 +26,7 @@ You need to have installed Poetry package. If you don't have, please install usi
 ```
 pip install poetry
 ```
-Set poetry global option, to use project folder as place to hold Virtual environment (recommended):
+Set poetry global option, to use project folder as place to hold virtual environment (recommended):
 ```
 poetry config virtualenvs.in-project true
 ```
