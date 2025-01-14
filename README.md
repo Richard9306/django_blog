@@ -10,17 +10,13 @@ Small blog made with Django for educational purposes.
 
 ## How to Set up
 
-Create specific folder (ex.django_blog):
+Clone repository:
 ```
-mkdir django_blog
+git clone https://github.com/Richard9306/django_blog
 ```
 Navigate to django_blog folder by command:
 ```
 cd django_blog
-```
-Clone repository:
-```
-git clone https://github.com/Richard9306/django_blog
 ```
 You need to have installed Poetry package. If you don't have, please install using this command:
 ```
